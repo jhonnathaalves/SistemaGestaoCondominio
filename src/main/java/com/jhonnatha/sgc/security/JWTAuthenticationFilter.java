@@ -56,9 +56,15 @@ protected void successfulAuthentication(HttpServletRequest req,
                                         Authentication auth) throws IOException, ServletException {
 
 	String username = ((UserSS) auth.getPrincipal()).getUsername();
+	String id = ((UserSS) auth.getPrincipal()).getId();
     String token = jwtUtil.generateToken(username);
     res.addHeader("Authorization", "Bearer " + token);
     res.addHeader("access-control-expose-headers", "Authorization");
+    res.setContentType("application/json");
+    res.setCharacterEncoding("UTF-8");
+    res.getWriter().write(
+            "{\"id\": \"" + id + "\", \"username\": \"" +username +"\"}"
+    );
 }
 
 private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {

@@ -47,13 +47,14 @@ public class ComunicadosResource {
 		return ResponseEntity.created(uri).build();
 	}
 
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable String id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 
-	@CrossOrigin("*")
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@PathVariable String id, @RequestBody ComunicadosDTO objDto) {
 		Comunicados obj = service.fromDTO(objDto);

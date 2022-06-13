@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	/* Vetor para endpoints publicos */
 	private static final String[] PUBLIC_MATCHERS = {};
 
-	private static final String[] PUBLIC_MATCHERS_GET = { "/comunicados"
+	private static final String[] PUBLIC_MATCHERS_GET = { "/comunicados", "/ocorrencias"
 
 	};
 	

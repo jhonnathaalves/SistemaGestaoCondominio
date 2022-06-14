@@ -54,12 +54,12 @@ public class Instantiation implements CommandLineRunner {
 		unidadeRepository.deleteAll();
 		blocoRepository.deleteAll();	
 
-		User maria = new User(null,"Maria","do Bairro","145.359.360-80","mariadobairro@gmail.com","(31) 99865-8336",pe.encode("maria123"));
-		User dayana = new User(null,"Dayana","Mota Laporte","663.629.116-87","dayanalaporte@gmail.com","(32) 99501-4863",pe.encode("dayana123"));
-		User denise = new User(null,"Denise","Oliveira Nespoli","141.162.586-28","denisenespoli@gmail.com","(35) 99609-6777",pe.encode("denise123"));
-		User rebeca = new User(null,"Rebeca","Gouveia Quintela","282.644.196-58","rebecaquintela@gmail.com","(38) 99644-8187",pe.encode("rebeca123"));
-		User nelma = new User(null,"Nelma","Vabo Coutinho","162.134.136-42","nelmacoutinho@gmail.com","(37) 99628-8336",pe.encode("nelma123"));
-		User cristiano = new User(null,"Cristiano","Germano Carmanin","662.685.356-26","cristianocarmanin@gmail.com","(32) 99865-0747",pe.encode("cristiano123"));
+		User maria = new User(null,"Maria","do Bairro","145.359.360-80","maria@gmail.com","(31) 99865-8336",pe.encode("maria123"));
+		User dayana = new User(null,"Dayana","Mota Laporte","663.629.116-87","dayana@gmail.com","(32) 99501-4863",pe.encode("dayana123"));
+		User denise = new User(null,"Denise","Oliveira Nespoli","141.162.586-28","denise@gmail.com","(35) 99609-6777",pe.encode("denise123"));
+		User rebeca = new User(null,"Rebeca","Gouveia Quintela","282.644.196-58","rebeca@gmail.com","(38) 99644-8187",pe.encode("rebeca123"));
+		User nelma = new User(null,"Nelma","Vabo Coutinho","162.134.136-42","nelma@gmail.com","(37) 99628-8336",pe.encode("nelma123"));
+		User cristiano = new User(null,"Cristiano","Germano Carmanin","662.685.356-26","cristiano@gmail.com","(32) 99865-0747",pe.encode("cristiano123"));
 		
 		
 		cristiano.addPerfil(Perfil.ROLE_ADMIN);

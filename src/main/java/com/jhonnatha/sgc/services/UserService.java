@@ -27,6 +27,15 @@ public class UserService {
 	public List<User> findAll() {
 		return repo.findAll();
 	}
+	
+	public List<User> findAllbyPerfil(String perfil) {		
+		if (perfil.equalsIgnoreCase("ROLE_COLABORADOR")) {			
+			return repo.findAllByPerfisOrderByNomeAsc(perfil);
+		} else {			
+			return repo.findAllByPerfisNotLikeOrderByNomeAsc("ROLE_COLABORADOR");
+		}
+		
+	}
 
 	public User findById(String id) {
 
@@ -53,9 +62,9 @@ public class UserService {
 		return obj;
 	}
 
-	public User insert(User obj) {
+	public User insert(User obj) {		
 		return repo.insert(obj);
-	}
+	}	
 
 	public void delete(String id) {
 		repo.deleteById(id);

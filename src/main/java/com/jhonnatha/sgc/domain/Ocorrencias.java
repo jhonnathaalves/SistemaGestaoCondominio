@@ -1,16 +1,14 @@
 package com.jhonnatha.sgc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.jhonnatha.sgc.domain.enums.Status;
 import com.jhonnatha.sgc.dto.AuthorDTO;
-import com.jhonnatha.sgc.dto.ResponseDTO;
 
 @Document
 public class Ocorrencias implements Serializable {
@@ -19,27 +17,32 @@ public class Ocorrencias implements Serializable {
 	
 	@Id
 	private String id;
-	private String titulo;
-    private String mensagem;
+	private String titulo;	
+    private String descricao;
+    private Status status;
     private AuthorDTO autor;
     private Date data;
-    
-    private List<ResponseDTO> resposta = new ArrayList<>();
+    private String resposta;
+    private Date dataResposta;
+    private AuthorDTO autorResposta;
     
 	public Ocorrencias() {
 		super();
-    }
+    }	
 
-	public Ocorrencias(String id, String titulo, String mensagem, AuthorDTO autor, Date data) {
+	public Ocorrencias(String id, String titulo, String descricao, Status status, AuthorDTO autor, Date data,
+			String resposta, Date dataResposta, AuthorDTO autorResposta) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
-		this.mensagem = mensagem;
+		this.descricao = descricao;
+		this.status = status;
 		this.autor = autor;
-		this.data = data;		
+		this.data = data;
+		this.resposta = resposta;
+		this.dataResposta = dataResposta;
+		this.autorResposta = autorResposta;
 	}
-
-
 
 
 
@@ -63,14 +66,26 @@ public class Ocorrencias implements Serializable {
 	}
 
 
-	public String getMensagem() {
-		return mensagem;
+	public String getDescricao() {
+		return descricao;
 	}
 
 
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
+
+
+	public Status getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 
 
 	public AuthorDTO getAutor() {
@@ -91,16 +106,30 @@ public class Ocorrencias implements Serializable {
 	public void setData(Date data) {
 		this.data = data;
 	}
-
-	public List<ResponseDTO> getResposta() {
+	
+	public String getResposta() {
 		return resposta;
 	}
 
-
-	public void setResposta(List<ResponseDTO> resposta) {
+	public void setResposta(String resposta) {
 		this.resposta = resposta;
 	}
 
+	public Date getDataResposta() {
+		return dataResposta;
+	}
+
+	public void setDataResposta(Date dataResposta) {
+		this.dataResposta = dataResposta;
+	}	
+
+	public AuthorDTO getAutorResposta() {
+		return autorResposta;
+	}
+
+	public void setAutorResposta(AuthorDTO autorResposta) {
+		this.autorResposta = autorResposta;
+	}
 
 	@Override
 	public int hashCode() {

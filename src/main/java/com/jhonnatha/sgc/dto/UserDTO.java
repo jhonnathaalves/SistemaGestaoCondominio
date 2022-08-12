@@ -1,7 +1,10 @@
 package com.jhonnatha.sgc.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.jhonnatha.sgc.domain.Unidades;
 import com.jhonnatha.sgc.domain.User;
 
 public class UserDTO implements Serializable {
@@ -15,7 +18,9 @@ public class UserDTO implements Serializable {
 	protected String email;
 	protected String telefone;
 
-	protected String senha;
+	protected String senha;	
+	private Set<String> perfis = new HashSet<>();
+	private Unidades unidade;
 
 	public UserDTO() {
 		super();
@@ -30,6 +35,8 @@ public class UserDTO implements Serializable {
 		this.email = obj.getEmail();
 		this.telefone = obj.getTelefone();
 		this.senha = obj.getSenha();
+		this.perfis = obj.getPerfis();
+		this.unidade = obj.getUnidade();
 	}
 
 	public String getId() {
@@ -87,5 +94,23 @@ public class UserDTO implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+	public Set<String> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(Set<String> perfis) {
+		this.perfis = perfis;
+	}
+
+	public Unidades getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(Unidades unidade) {
+		this.unidade = unidade;
+	}
+	
+	
 
 }

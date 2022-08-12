@@ -1,63 +1,85 @@
 package com.jhonnatha.sgc.domain.resources;
 
-import java.net.URI;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.jhonnatha.sgc.domain.Documentos;
-import com.jhonnatha.sgc.dto.DocumentosDTO;
+import com.google.api.services.drive.model.File;
 import com.jhonnatha.sgc.services.DocumentosService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value="/documentos")
+@RequestMapping(value = "/documentos")
 public class DocumentosResource {
-	
+
 	@Autowired
 	private DocumentosService service;
-	
-  
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<Documentos> findById(@PathVariable String id){
-    	Documentos obj = service.findById(id);
-    	return ResponseEntity.ok().body(obj);
-	}
-    
-    @RequestMapping(method=RequestMethod.GET)
-   	public ResponseEntity<List<Documentos>> findAll(){
-   		List<Documentos> list = service.findAll();   		
-   		return ResponseEntity.ok().body(list);
-   	}
-    
-    @RequestMapping(method=RequestMethod.POST)
-   	public ResponseEntity<Void> insert(@RequestBody Documentos Documentos){
-    	Documentos obj = service.insert(Documentos);       	
-       	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-       	return ResponseEntity.created(uri).build();
-   	}
-    
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-  	public ResponseEntity<Void> delete(@PathVariable String id){
-      	service.delete(id);
-      	return ResponseEntity.noContent().build();
-  	}
-    
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@PathVariable String id, @RequestBody DocumentosDTO objDto) {
-		Documentos obj = service.fromDTO(objDto);
-		obj.setId(id);
-		obj = service.update(obj);
-		return ResponseEntity.noContent().build();
 
-	}    
-    
+	@GetMapping({ "/list", "/list/{parentId}" })
+	public ResponseEntity<List<File>> list(@PathVariable(required = false) String parentId)
+			throws IOException, GeneralSecurityException {
+		List<File> folders = service.listFolderContent("root");
+		String id = "";
+		for (int i = 0; i < folders.size(); i++) {
+			if (folders.get(i).getName().equalsIgnoreCase(parentId)) {
+				id = folders.get(i).getId();
+			}
+		}
+
+		List<File> files = service.listFolderContent(id);
+		return ResponseEntity.ok(files);
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@PostMapping(value = "/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<String> uploadSingleFile(@RequestBody MultipartFile file,
+			@RequestParam(required = false) String path) throws IOException, GeneralSecurityException {
+		
+		List<File> folders = service.listFolderContent("root");
+		String id = "";
+		
+		for (int i = 0; i < folders.size(); i++) {			;
+			if (folders.get(i).getName().equalsIgnoreCase(path)) {
+				id = folders.get(i).getId();
+			}
+		}
+		
+		String fileId = service.uploadFile(file, id);		
+		if (fileId == null) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		return ResponseEntity.ok("Success, FileId: " + fileId);
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable String id) throws Exception {
+		service.deleteFile(id);
+	}
+
+	@GetMapping("/download/{id}")
+	public void download(@PathVariable String id, HttpServletResponse response)
+			throws IOException, GeneralSecurityException {
+		service.downloadFile(id, response.getOutputStream());
+	}
+
 }

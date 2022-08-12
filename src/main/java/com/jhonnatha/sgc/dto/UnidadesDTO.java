@@ -2,7 +2,6 @@ package com.jhonnatha.sgc.dto;
 
 import java.io.Serializable;
 
-import com.jhonnatha.sgc.domain.Blocos;
 import com.jhonnatha.sgc.domain.Unidades;
 
 public class UnidadesDTO implements Serializable {
@@ -12,7 +11,7 @@ public class UnidadesDTO implements Serializable {
 	private String id;
 	private Integer numero;
 	
-	private Blocos bloco;
+	private Integer bloco;
 
 	public UnidadesDTO() {
 		super();
@@ -22,6 +21,7 @@ public class UnidadesDTO implements Serializable {
 		super();
 		this.id = obj.getId();
 		this.numero = obj.getNumero();
+		this.bloco = obj.getBloco();
 	}
 
 	public String getId() {
@@ -40,14 +40,12 @@ public class UnidadesDTO implements Serializable {
 		this.numero = numero;
 	}
 
-	public Blocos getBloco() {
+	public Integer getBloco() {
 		return bloco;
 	}
 
-	public void setBloco(Blocos bloco) {
+	public void setBloco(Integer bloco) {
 		this.bloco = bloco;
-	}
-	
-	
+	}	
 
 }

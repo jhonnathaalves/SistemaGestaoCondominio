@@ -26,7 +26,7 @@ public class DespesasService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
 	}
 
-	public Despesas insert(Despesas obj) {
+	public Despesas insert(Despesas obj) {				
 		return repo.insert(obj);
 	}
 
@@ -42,14 +42,13 @@ public class DespesasService {
 
 	private void updateData(Despesas newObj, Despesas obj) {
 		newObj.setFornecedor(obj.getFornecedor());
-		newObj.setValor(obj.getValor());
-		newObj.setTipo(obj.getTipo());
+		newObj.setValor(obj.getValor());		
 		newObj.setData(obj.getData());
 
 	}
 	
 	public Despesas fromDTO(DespesasDTO objDto) {
-		return new Despesas(objDto.getId(), objDto.getFornecedor(),objDto.getValor(),objDto.getTipo(),objDto.getData());
+		return new Despesas(objDto.getId(), objDto.getFornecedor(),objDto.getValor(),objDto.getData());
 
 	}
 

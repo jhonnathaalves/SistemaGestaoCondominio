@@ -1,11 +1,10 @@
 package com.jhonnatha.sgc.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import com.jhonnatha.sgc.domain.Ocorrencias;
+import com.jhonnatha.sgc.domain.enums.Status;
 
 public class OcorrenciasDTO implements Serializable {
 
@@ -13,11 +12,13 @@ public class OcorrenciasDTO implements Serializable {
 
 	private String id;
 	private String titulo;
-	private String mensagem;
+	private Status status;
+	private String descricao;
 	private AuthorDTO autor;
 	private Date data;
-
-	private List<ResponseDTO> resposta = new ArrayList<>();
+	private String resposta;
+    private Date dataResposta;
+    private AuthorDTO autorResposta;
 
 	public OcorrenciasDTO() {
 		super();
@@ -26,10 +27,14 @@ public class OcorrenciasDTO implements Serializable {
 	public OcorrenciasDTO(Ocorrencias obj) {
 		super();
 		this.id = obj.getId();
-		this.titulo = obj.getTitulo();
-		this.mensagem = obj.getMensagem();
+		this.titulo = obj.getTitulo();		
+		this.descricao = obj.getDescricao();
+		this.status = obj.getStatus();
 		this.autor = obj.getAutor();
 		this.data = obj.getData();
+		this.resposta = obj.getResposta();
+		this.dataResposta = obj.getDataResposta();
+		this.autorResposta = obj.getAutorResposta();
 	}
 
 	public String getId() {
@@ -42,18 +47,26 @@ public class OcorrenciasDTO implements Serializable {
 
 	public String getTitulo() {
 		return titulo;
+	}	
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
 
-	public String getMensagem() {
-		return mensagem;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public AuthorDTO getAutor() {
@@ -72,12 +85,30 @@ public class OcorrenciasDTO implements Serializable {
 		this.data = data;
 	}
 
-	public List<ResponseDTO> getResposta() {
+	public String getResposta() {
 		return resposta;
 	}
 
-	public void setResposta(List<ResponseDTO> resposta) {
+	public void setResposta(String resposta) {
 		this.resposta = resposta;
 	}
+
+	public Date getDataResposta() {
+		return dataResposta;
+	}
+
+	public void setDataResposta(Date dataResposta) {
+		this.dataResposta = dataResposta;
+	}
+
+	public AuthorDTO getAutorResposta() {
+		return autorResposta;
+	}
+
+	public void setAutorResposta(AuthorDTO autorResposta) {
+		this.autorResposta = autorResposta;
+	}
+	
+	
 
 }

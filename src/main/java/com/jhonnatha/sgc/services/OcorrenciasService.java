@@ -18,7 +18,7 @@ public class OcorrenciasService {
 	private OcorrenciasRepository repo;
 	
 	public List<Ocorrencias> findAll(){		
-		return repo.findAll();		
+		return repo.findAllByOrderByStatus();		
 	}
 	
 	public Ocorrencias findById(String id) {
@@ -41,10 +41,14 @@ public class OcorrenciasService {
 	}
 	
 	private void updateData(Ocorrencias newObj, Ocorrencias obj) {
-		newObj.setTitulo(obj.getTitulo());
-		newObj.setMensagem(obj.getMensagem());
+		newObj.setTitulo(obj.getTitulo());		
+		newObj.setDescricao(obj.getDescricao());
+		newObj.setStatus(obj.getStatus());
 		newObj.setAutor(obj.getAutor());
-		newObj.setData(obj.getData());		
+		newObj.setData(obj.getData());
+		newObj.setResposta(obj.getResposta());
+		newObj.setDataResposta(obj.getDataResposta());
+		newObj.setAutorResposta(obj.getAutorResposta());
 	}
 	
 
@@ -52,9 +56,14 @@ public class OcorrenciasService {
 		return new Ocorrencias(
 				objDto.getId(),
 				objDto.getTitulo(),
-				objDto.getMensagem(),
+				objDto.getDescricao(),
+				objDto.getStatus(),
 				objDto.getAutor(),
-				objDto.getData());
+				objDto.getData(),
+				objDto.getResposta(),
+				objDto.getDataResposta(),
+				objDto.getAutorResposta());
+		
 		  
 	}
 

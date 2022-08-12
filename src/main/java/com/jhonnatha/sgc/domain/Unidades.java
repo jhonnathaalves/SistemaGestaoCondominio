@@ -1,12 +1,9 @@
 package com.jhonnatha.sgc.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -17,18 +14,17 @@ public class Unidades implements Serializable {
 	@Id
 	private String id;
 	private Integer numero;	
-
-	@DBRef(lazy = true)
-	private List<Moradores> moradores = new ArrayList<>();
+	private Integer bloco;
 
 	public Unidades() {
 		super();
 	}
 
-	public Unidades(String id, Integer numero) {
+	public Unidades(String id, Integer numero, Integer bloco) {
 		super();
 		this.id = id;
-		this.numero = numero;		
+		this.numero = numero;
+		this.bloco = bloco;
 	}
 
 	public String getId() {
@@ -45,14 +41,14 @@ public class Unidades implements Serializable {
 
 	public void setNumero(Integer numero) {
 		this.numero = numero;
+	}	
+
+	public Integer getBloco() {
+		return bloco;
 	}
 
-	public List<Moradores> getMoradores() {
-		return moradores;
-	}
-
-	public void setMoradores(List<Moradores> moradores) {
-		this.moradores = moradores;
+	public void setBloco(Integer bloco) {
+		this.bloco = bloco;
 	}
 
 	@Override

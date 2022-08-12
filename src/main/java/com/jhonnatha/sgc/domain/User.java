@@ -6,14 +6,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jhonnatha.sgc.config.TipoPerfilConverter;
 import com.jhonnatha.sgc.domain.enums.Perfil;
 
@@ -37,6 +35,9 @@ public class User implements Serializable {
 	
 	private String senha;
 	
+	@DBRef(lazy = true)
+	private Unidades unidade;
+	
 	@DBRef(lazy=true)
 	private List<Ocorrencias> ocorrencias = new ArrayList<>();
 	
@@ -47,6 +48,8 @@ public class User implements Serializable {
 	@DBRef(lazy=true)
 	private List<Comunicados> comunicados = new ArrayList<>();
 	
+	//@DBRef(lazy=true)
+	//private Unidades unidade;
 	
 	public User() {
 		super();		
@@ -63,6 +66,46 @@ public class User implements Serializable {
 		this.senha = senha;
 	}
 
+	public User(String id, String nome, String sobrenome, String cpf, String email, String telefone, String senha,
+			Set<String> perfis) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.cpf = cpf;
+		this.email = email;
+		this.telefone = telefone;
+		this.senha = senha;
+		this.perfis = perfis;
+	}
+	
+	public User(String id, String nome, String sobrenome, String cpf, String email, String telefone, String senha,
+			 Unidades unidade) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.cpf = cpf;
+		this.email = email;
+		this.telefone = telefone;
+		this.senha = senha;		
+		this.unidade = unidade;}
+	
+	
+
+	public User(String id, String nome, String sobrenome, String cpf, String email, String telefone, String senha,
+			Unidades unidade, Set<String> perfis) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.cpf = cpf;
+		this.email = email;
+		this.telefone = telefone;
+		this.senha = senha;
+		this.unidade = unidade;
+		this.perfis = perfis;
+	}
 
 	public User (User user) {
 		super();
@@ -73,8 +116,10 @@ public class User implements Serializable {
 		this.email = user.getEmail();
 		this.telefone = user.getTelefone();
 		this.senha = user.getSenha();
+		this.perfis = user.getPerfis();
+		this.unidade = user.getUnidade();
+		
 	}
-
 
 	public String getId() {
 		return id;
@@ -152,10 +197,15 @@ public class User implements Serializable {
 		this.ocorrencias = ocorrencias;
 	}	
 	
-	//public Set<Perfil> getPerfis() {
-		//return perfis.stream().map(x).collect(Collectors.toSet());
-	//}
 	
+	public Unidades getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(Unidades unidade) {
+		this.unidade = unidade;
+	}
+
 	public Set<String> getPerfis() {		
 		return perfis;
 	}
@@ -171,7 +221,19 @@ public class User implements Serializable {
 
 	public void setComunicados(List<Comunicados> comunicados) {
 		this.comunicados = comunicados;
-	}	
+	}
+	//public Unidades getUnidade() {
+		//return unidade;
+	//}
+
+	//public void setUnidade(Unidades unidade) {
+		//this.unidade = unidade;
+	//}
+
+
+	public void setPerfis(Set<String> perfis) {
+		this.perfis = perfis;
+	}
 
 	@Override
 	public int hashCode() {

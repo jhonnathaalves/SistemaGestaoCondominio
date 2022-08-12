@@ -18,7 +18,7 @@ public class VisitasService {
 	private VisitasRepository repo;
 
 	public List<Visitas> findAll() {
-		return repo.findAll();
+		return repo.findByOrderByIdDesc();
 	}
 
 	public Visitas findById(String id) {
@@ -42,12 +42,13 @@ public class VisitasService {
 
 	private void updateData(Visitas newObj, Visitas obj) {
 		newObj.setNome(obj.getNome());
-		newObj.setData(obj.getData());
+		newObj.setHoraEntrada(obj.getHoraEntrada());
 		newObj.setUnidade(obj.getUnidade());
+		newObj.setBloco(obj.getBloco());
 	}
 
 	public Visitas fromDTO(VisitasDTO objDto) {
-		return new Visitas(objDto.getId(), objDto.getNome(), objDto.getData(), objDto.getUnidade());
+		return new Visitas(objDto.getId(), objDto.getNome(), objDto.getHoraEntrada(), objDto.getTipoVisita(), objDto.getUnidade(),objDto.getBloco());
 
 	}
 

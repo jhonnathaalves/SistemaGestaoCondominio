@@ -7,6 +7,8 @@ import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.jhonnatha.sgc.domain.enums.TipoVisita;
+
 @Document
 public class Visitas implements Serializable {
 
@@ -15,20 +17,24 @@ public class Visitas implements Serializable {
 	@Id
 	private String id;
 	private String nome;
-	private Date data;
-
-	private Unidades unidade;
-
+	private Date horaEntrada;
+	private TipoVisita tipoVisita;
+	private Integer unidade;	
+	private Integer bloco;
+	
 	public Visitas() {
 		super();
 	}
+		
 
-	public Visitas(String id, String nome, Date data, Unidades unidade) {
+	public Visitas(String id, String nome, Date horaEntrada, TipoVisita tipoVisita, Integer unidade, Integer bloco) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.data = data;
+		this.horaEntrada = horaEntrada;
+		this.tipoVisita = tipoVisita;
 		this.unidade = unidade;
+		this.bloco = bloco;
 	}
 
 	public String getId() {
@@ -47,21 +53,43 @@ public class Visitas implements Serializable {
 		this.nome = nome;
 	}
 
-	public Date getData() {
-		return data;
+	public Date getHoraEntrada() {
+		return horaEntrada;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
-	}
+	public void setHoraEntrada(Date horaEntrada) {
+		this.horaEntrada = horaEntrada;
+	}		
 
-	public Unidades getUnidade() {
+	public Integer getUnidade() {
 		return unidade;
 	}
 
-	public void setUnidade(Unidades unidade) {
+
+	public void setUnidade(Integer unidade) {
 		this.unidade = unidade;
 	}
+	
+
+	public TipoVisita getTipoVisita() {
+		return tipoVisita;
+	}
+
+
+	public void setTipoVisita(TipoVisita tipoVisita) {
+		this.tipoVisita = tipoVisita;
+	}
+
+
+	public Integer getBloco() {
+		return bloco;
+	}
+
+
+	public void setBloco(Integer bloco) {
+		this.bloco = bloco;
+	}
+
 
 	@Override
 	public int hashCode() {

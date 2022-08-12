@@ -3,7 +3,7 @@ package com.jhonnatha.sgc.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.jhonnatha.sgc.domain.Unidades;
+import com.jhonnatha.sgc.domain.enums.TipoVisita;
 
 public class VisitasDTO implements Serializable {
 
@@ -11,20 +11,26 @@ public class VisitasDTO implements Serializable {
 
 	private String id;
 	private String nome;
-	private Date data;
-	private Unidades unidade;
+	private Date horaEntrada;
+	private TipoVisita tipoVisita;
+	private Integer unidade;	
+	private Integer bloco;
 
 	public VisitasDTO() {
 		super();
 	}
 
-	public VisitasDTO(String id, String nome, Date data, Unidades unidade) {
+	public VisitasDTO(String id, String nome, Date horaEntrada, TipoVisita tipoVisita, Integer unidade, Integer bloco) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.data = data;
+		this.horaEntrada = horaEntrada;
+		this.tipoVisita = tipoVisita;
 		this.unidade = unidade;
+		this.bloco = bloco;
 	}
+
+
 
 	public String getId() {
 		return id;
@@ -42,20 +48,36 @@ public class VisitasDTO implements Serializable {
 		this.nome = nome;
 	}
 
-	public Date getData() {
-		return data;
+	public Date getHoraEntrada() {
+		return horaEntrada;
 	}
 
-	public void setData(Date data) {
-		this.data = data;
+	public void setHoraEntrada(Date horaEntrada) {
+		this.horaEntrada = horaEntrada;
+	}	
+
+	public TipoVisita getTipoVisita() {
+		return tipoVisita;
 	}
 
-	public Unidades getUnidade() {
+	public void setTipoVisita(TipoVisita tipoVisita) {
+		this.tipoVisita = tipoVisita;
+	}
+
+	public Integer getUnidade() {
 		return unidade;
 	}
 
-	public void setUnidade(Unidades unidade) {
+	public void setUnidade(Integer unidade) {
 		this.unidade = unidade;
 	}
+
+	public Integer getBloco() {
+		return bloco;
+	}
+
+	public void setBloco(Integer bloco) {
+		this.bloco = bloco;
+	}	
 
 }

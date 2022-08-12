@@ -1,55 +1,86 @@
 package com.jhonnatha.sgc.services;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.security.GeneralSecurityException;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.jhonnatha.sgc.domain.Documentos;
-import com.jhonnatha.sgc.dto.DocumentosDTO;
-import com.jhonnatha.sgc.repository.DocumentosRepository;
-import com.jhonnatha.sgc.services.exception.ObjectNotFoundException;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
+import com.google.api.client.http.InputStreamContent;
+import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.FileList;
+import com.jhonnatha.sgc.config.GoogleDriveManager;
 
 @Service
 public class DocumentosService {
+	
 
-	@Autowired
-	private DocumentosRepository repo;
-
-	public List<Documentos> findAll() {
-		return repo.findAll();
+	public List<File> findAll() throws IOException, GeneralSecurityException  {
+	
+		FileList result = GoogleDriveManager.getInstance().files().list()
+		        .setPageSize(10)
+		        .setFields("nextPageToken, files(id, name)")
+		        .execute();
+		  return result.getFiles();
+	}
+	
+	public List<File> listFolderContent(String parentId) throws IOException, GeneralSecurityException {
+		  if(parentId == null){
+		     parentId = "root";
+		  }
+		  String query = "'" + parentId + "' in parents";
+		  FileList result = GoogleDriveManager.getInstance().files().list()
+		        .setQ(query)
+		        .setPageSize(10)
+		        .setFields("nextPageToken, files(id, name)")
+		        .execute();
+		  return result.getFiles();
+		}
+	
+	
+	public String uploadFile(MultipartFile file, String folderId ) throws IOException, GeneralSecurityException {
+		
+		  try {			
+		     if (null != file) {
+		        File fileMetadata = new File();
+		        fileMetadata.setParents(Arrays.asList(folderId));
+		        fileMetadata.setName(file.getOriginalFilename());	        
+		        
+		        File uploadFile = GoogleDriveManager.getInstance()
+		              .files()
+		              .create(fileMetadata, new InputStreamContent ( 
+		                      file.getContentType() ,
+		                      new ByteArrayInputStream ( file.getBytes()))
+		              )
+		              .setFields("id").execute();		       
+		        return uploadFile.getId();
+		     }
+		  } catch (GoogleJsonResponseException e) {
+			  System.err.println("Unable to upload file: " + e.getDetails());	           
+	            System.out.printf("Error: ", e);
+	            throw e;
+		  }
+		  return null;
 	}
 
-	public Documentos findById(String id) {
-		Optional<Documentos> obj = repo.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
-	}
-
-	public Documentos insert(Documentos obj) {
-		return repo.insert(obj);
-	}
-
-	public void delete(String id) {
-		repo.deleteById(id);
-	}
-
-	public Documentos update(Documentos obj) {
-		Documentos newObj = findById(obj.getId());
-		updateData(newObj, obj);
-		return repo.save(newObj);
-	}
-
-	private void updateData(Documentos newObj, Documentos obj) {
-		newObj.setNome(obj.getNome());
-		newObj.setTipo(obj.getTipo());
-		newObj.setData(obj.getData());
-
-	}
-
-	public Documentos fromDTO(DocumentosDTO objDto) {
-		return new Documentos(objDto.getId(), objDto.getNome(), objDto.getTipo(), objDto.getData());
-
-	}
+	public void deleteFile(String fileId) throws Exception {
+		GoogleDriveManager.getInstance().files().delete(fileId).execute();
+	}	
+	
+	
+	public void downloadFile(String id, OutputStream outputStream) throws IOException, GeneralSecurityException {
+		  if (id != null) {
+			 outputStream.flush();
+		     String fileId = id;
+		     GoogleDriveManager.getInstance().files().get(fileId).executeMediaAndDownloadTo(outputStream);
+		     outputStream.flush();
+		     outputStream.close();
+		  }
+	}	
 
 }

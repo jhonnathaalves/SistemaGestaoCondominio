@@ -18,7 +18,7 @@ public class ComunicadosService {
 	private ComunicadosRepository repo;
 
 	public List<Comunicados> findAll() {
-		return repo.findAll();
+		return repo.findAllByOrderByIdDesc();
 	}
 
 	public Comunicados findById(String id) {

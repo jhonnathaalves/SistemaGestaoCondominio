@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.jhonnatha.sgc.domain.Unidades;
 
 @Repository
-public interface UnidadesRepository extends MongoRepository<Unidades, String> {
+public interface UnidadesRepository extends MongoRepository<Unidades, String> {	
+	
 
 }

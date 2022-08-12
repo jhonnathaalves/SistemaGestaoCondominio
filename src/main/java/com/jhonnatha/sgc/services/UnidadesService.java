@@ -45,7 +45,7 @@ public class UnidadesService {
 	}
 
 	public Unidades fromDTO(UnidadesDTO objDto) {
-		return new Unidades(objDto.getId(), objDto.getNumero());
+		return new Unidades(objDto.getId(), objDto.getNumero(), objDto.getBloco());
 
 	}
 

@@ -8,17 +8,17 @@ public class ResponseDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String texto;
-	private Date date;
+	private Date data;
 	private AuthorDTO author;
 
 	public ResponseDTO() {
 		super();
 	}
 
-	public ResponseDTO(String texto, Date date, AuthorDTO author) {
+	public ResponseDTO(String texto, Date data, AuthorDTO author) {
 		super();
 		this.texto = texto;
-		this.date = date;
+		this.data = data;
 		this.author = author;
 	}
 
@@ -32,12 +32,12 @@ public class ResponseDTO implements Serializable {
 		this.texto = texto;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getData() {
+		return data;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setData(Date data) {
+		this.data = data;
 	}
 
 	public AuthorDTO getAuthor() {

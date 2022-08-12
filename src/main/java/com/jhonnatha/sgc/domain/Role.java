@@ -5,8 +5,6 @@ import java.io.Serializable;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.jhonnatha.sgc.domain.enums.Perfil;
-
 @Document
 public class Role implements Serializable {
 

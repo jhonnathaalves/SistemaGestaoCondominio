@@ -81,8 +81,7 @@ public class UserService {
 		newObj.setSobrenome(obj.getSobrenome());
 		newObj.setCpf(obj.getCpf());
 		newObj.setEmail(obj.getEmail());
-		newObj.setTelefone(obj.getTelefone());
-		newObj.setSenha(obj.getSenha());
+		newObj.setTelefone(obj.getTelefone());    
 
 	}
 
